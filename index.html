@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+
+		<!-- Libs -->
+		<script type="text/javascript" src="libs/archetype.js"></script>
+		<script type="text/javascript" src="libs/underscore.js"></script>
+
+
+		<!-- Sprites -->
+		<script type="text/javascript" src="sprites/sprite.js"></script>
+
+
+		<script type="text/javascript" src="engine.js"></script>
+
+	</head>
+
+	<body>
+
+		<canvas id="canvas" width="600" height="600" style="background-color:black;"></canvas>
+
+		<pre id='output'></pre>
+
+
+
+	</body>
+
+	<script>
+
+
+	engine = Engine.create();
+
+
+
+	var ship = Sprite.create({
+		mass : 100,
+		type : 'rectangle',
+		x : 0,
+		y : -100,
+		//angle : 0.25,
+		imagePath : 'assets/ship_w.png',
+		force : {
+			//angle : 0.25,
+			//amount : 0.5
+		}
+	});
+
+	var planet = Sprite.create({
+		type : 'circle',
+		mass : 10000000,
+		x : 0,
+		y : 0,
+		angle : 0,
+	//	imagePath : 'assets/planet.png',
+		boundary : {
+			radius : 48
+
+		}
+	});
+
+
+	engine.add(planet);
+	engine.add(ship);
+
+
+
+
+
+
+	engine.on('key:d', function(){
+		ship.applyForce(0.1, 0.25);
+	});
+
+	engine.on('key:a', function(){
+		ship.applyForce(0.1, 0.75);
+	});
+	engine.on('key:s', function(){
+		ship.applyForce(0.1, 0.5);
+	});
+
+	engine.on('key:w', function(){
+		ship.applyForce(0.1, ship.angle);
+	});
+
+	engine.on('key:q', function(){
+		ship.applySpin(-0.0005);
+	});
+
+	engine.on('key:e', function(){
+		ship.applySpin(0.0005);
+	});
+
+	ship.on('collision', function(){
+		ship.force.amount = 0;
+		ship.force.rotation = 0;
+	})
+
+
+	</script>
+
+
+</html>
